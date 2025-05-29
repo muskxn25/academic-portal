@@ -8,19 +8,20 @@ const navigation = [
   { name: 'Colleges', href: '/colleges', current: false },
   { name: 'Departments', href: '/departments', current: false },
   { name: 'Academic Materials', href: '/materials', current: false },
+  { name: 'Courses', href: '/courses', current: false },
 ]
 
 const careerNavigation = [
-  { name: 'AI Interview Practice', href: '#', current: false },
-  { name: 'Mentorship', href: '#', current: false },
-  { name: 'Skill Certifications', href: '#', current: false },
-  { name: 'Job Board', href: '#', current: false, badge: '5' },
+  { name: 'AI Interview Practice', href: '/ai-interview', current: false },
+  { name: 'Mentorship', href: '/mentorship', current: false },
+  { name: 'Skill Badges', href: '/skill-badges', current: false },
+  { name: 'Job Board', href: '/job-board', current: false, badge: '5' },
+  { name: 'Resume Builder', href: '/resume-builder', current: false },
 ]
 
 const communityNavigation = [
-  { name: 'Alumni Network', href: '#', current: false, badge: 'New' },
-  { name: 'Discussion Forums', href: '#', current: false },
-  { name: 'Events', href: '#', current: false },
+  { name: 'Alumni Network', href: '/alumni-network', current: false, badge: 'New' },
+  { name: 'Discussion Forums', href: '/discussion-forums', current: false },
 ]
 
 const accountNavigation = [
