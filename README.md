@@ -1,3 +1,52 @@
+# 🧠 GrowWith Dashboard Breakdown (Post-Login Home)
+
+## 🔹 Top Navigation Bar (Global)
+- **Logo:** "GrowWith" → Home/Dashboard
+- **Tabs:** Dashboard | Colleges | Departments | Academic Materials | Courses
+- **User Avatar:** → Dropdown (Profile, Settings, Logout)
+
+## 🔹 Left Sidebar Menu
+- **Home Feed:** Shows posts/stories from connections
+- **AI Interview Practice:** Navigate to /interview-practice
+- **Find Mentors:** Mentor discovery page
+- **Skill Certifications:** List + Earned badges
+- **Job Board:** Explore & apply jobs
+- **My Profile:** /profile
+- **Settings:** Notification, privacy, account config
+
+## 🔹 Center Panel (Feed Area)
+- **User Stories Bar:** Horizontal scroll of stories like Instagram/LinkedIn
+- **Feed Post Cards:** Each post shows:
+  - Author info
+  - Image/Video
+  - Reactions (like, bookmark, comment)
+
+## 🔹 Right Sidebar
+- **AI Interview Practice Widget**
+  - Title + Description + CTA Button (Start Practice)
+  - Time: 30 min | Practiced count
+- **Recommended Mentors**
+  - Small cards (Name, Title, Company, Rating)
+  - View All → Full mentor list
+- **Progress Tracker**
+  - Progress bars: Profile Completion, Interview Readiness, Skills Verified
+  - View Career Path button
+
+---
+
+## 🛠️ Development Plan (Post-Login Page)
+
+| Section            | Frontend (React)                | Backend (API endpoints)           |
+|--------------------|---------------------------------|-----------------------------------|
+| Auth redirect      | /login → /dashboard             | /auth/check-session               |
+| Stories + Feed     | FeedList.jsx, StoryList.jsx      | /api/posts, /api/stories          |
+| Sidebar buttons    | SidebarMenu.jsx                 | Static routes                     |
+| Interview Practice | InterviewCard.jsx               | /api/interview-practice/start     |
+| Mentor List        | MentorCard.jsx, MentorList.jsx  | /api/mentors/recommended          |
+| Progress Tracker   | ProgressBar.jsx                 | /api/user/progress                |
+
+---
+
 # Academic Portal
 
 A comprehensive academic portal built with React, TypeScript, and Tailwind CSS. This application provides a modern interface for students to access academic materials, explore departments, and manage their academic journey.
