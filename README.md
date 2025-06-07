@@ -1,129 +1,47 @@
-# 🧠 GrowWith Dashboard Breakdown (Post-Login Home)
+GrowWith: AI-Powered Academic & Career Success Portal 🚀
+Ongoing Project — Under Active Development
 
-## 🔹 Top Navigation Bar (Global)
-- **Logo:** "GrowWith" → Home/Dashboard
-- **Tabs:** Dashboard | Colleges | Departments | Academic Materials | Courses
-- **User Avatar:** → Dropdown (Profile, Settings, Logout)
+GrowWith is an AI-powered academic and career success portal designed to help students and professionals navigate their academic journey, build skills, and prepare for career opportunities.
 
-## 🔹 Left Sidebar Menu
-- **Home Feed:** Shows posts/stories from connections
-- **AI Interview Practice:** Navigate to /interview-practice
-- **Find Mentors:** Mentor discovery page
-- **Skill Certifications:** List + Earned badges
-- **Job Board:** Explore & apply jobs
-- **My Profile:** /profile
-- **Settings:** Notification, privacy, account config
+The platform combines LLM-powered workflows, interactive dashboards, and personalized recommendations to create an engaging and intelligent user experience — transforming fragmented academic data into actionable insights.
 
-## 🔹 Center Panel (Feed Area)
-- **User Stories Bar:** Horizontal scroll of stories like Instagram/LinkedIn
-- **Feed Post Cards:** Each post shows:
-  - Author info
-  - Image/Video
-  - Reactions (like, bookmark, comment)
+✨ Key Features
+🎓 AI Interview Practice
+Simulate realistic interview scenarios with LLM-based conversational agents; track progress and receive feedback on answers.
 
-## 🔹 Right Sidebar
-- **AI Interview Practice Widget**
-  - Title + Description + CTA Button (Start Practice)
-  - Time: 30 min | Practiced count
-- **Recommended Mentors**
-  - Small cards (Name, Title, Company, Rating)
-  - View All → Full mentor list
-- **Progress Tracker**
-  - Progress bars: Profile Completion, Interview Readiness, Skills Verified
-  - View Career Path button
+🧑‍🏫 Mentor Discovery
+Hybrid LLM + structured search to recommend relevant mentors; supports skill-based and industry-based filtering.
 
----
+🏆 Skill Certifications
+Earn and display verified skill badges; supports dynamic progress tracking.
 
-## 🛠️ Development Plan (Post-Login Page)
+📚 Academic Materials Explorer
+Search and access academic resources and materials across departments and colleges.
 
-| Section            | Frontend (React)                | Backend (API endpoints)           |
-|--------------------|---------------------------------|-----------------------------------|
-| Auth redirect      | /login → /dashboard             | /auth/check-session               |
-| Stories + Feed     | FeedList.jsx, StoryList.jsx      | /api/posts, /api/stories          |
-| Sidebar buttons    | SidebarMenu.jsx                 | Static routes                     |
-| Interview Practice | InterviewCard.jsx               | /api/interview-practice/start     |
-| Mentor List        | MentorCard.jsx, MentorList.jsx  | /api/mentors/recommended          |
-| Progress Tracker   | ProgressBar.jsx                 | /api/user/progress                |
+💼 Job Board
+AI-assisted job discovery and application tracking.
 
----
+📈 Personalized Dashboard
+Visualize interview readiness, skill verification, and career path progress — interactive, user-driven UI.
 
-# Academic Portal
+🏗️ Tech Stack
+Frontend: React, TypeScript, Tailwind CSS
 
-A comprehensive academic portal built with React, TypeScript, and Tailwind CSS. This application provides a modern interface for students to access academic materials, explore departments, and manage their academic journey.
+Backend: REST APIs (Node.js, Python-based LLM services)
 
-## Features
+LLM Integration: OpenAI API, vector search (planned)
 
-- **Academic Materials**: Access and download course materials, lecture notes, and study resources
-- **Department Explorer**: Browse through different academic departments and their programs
-- **College Information**: View detailed information about colleges and their offerings
-- **Responsive Design**: Modern UI that works seamlessly across all devices
-- **Search Functionality**: Easy-to-use search and filter options
+Other: React Router, Heroicons, Vite
 
-## Tech Stack
+🚧 Project Status
+This project is currently ongoing and under active development.
 
-- React
-- TypeScript
-- Tailwind CSS
-- React Router
-- Heroicons
-- Vite
+Recent additions include:
+✅ AI Interview Practice Module
+✅ Mentor Discovery Module
+✅ Progress Tracker
+✅ UI Redesign with Tailwind CSS
 
-## Getting Started
+About
+GrowWith is a personal project aiming to bridge the gap between academic and career readiness through AI-powered, user-friendly workflows — with a strong focus on LLM-based document interaction and intelligent recommendation, making it highly relevant to domains like legal tech and compliance as well.
 
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/academic-portal.git
-cd academic-portal
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-## Project Structure
-
-```
-src/
-├── components/     # Reusable components
-├── pages/         # Page components
-├── App.tsx        # Main application component
-└── main.tsx       # Application entry point
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Heroicons](https://heroicons.com/) 
