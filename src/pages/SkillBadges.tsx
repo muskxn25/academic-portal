@@ -10,7 +10,6 @@ import {
   ArrowPathIcon
 } from '@heroicons/react/24/outline'
 import { Link, useLocation } from 'react-router-dom'
-import Navigation from '../components/Navigation'
 import PageHeader from '../components/PageHeader'
 
 interface Badge {
@@ -97,7 +96,6 @@ export default function SkillBadges() {
   return (
     <div className="min-h-screen bg-blue-50">
       <PageHeader />
-      <Navigation />
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Skill Badges</h1>

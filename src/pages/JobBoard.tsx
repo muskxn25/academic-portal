@@ -11,7 +11,6 @@ import {
   ShareIcon,
   ChevronDownIcon,
 } from '@heroicons/react/24/outline'
-import Navigation from '../components/Navigation';
 import PageHeader from '../components/PageHeader';
 
 interface Job {
