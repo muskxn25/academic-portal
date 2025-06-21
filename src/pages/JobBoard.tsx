@@ -1,17 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react'
+
 import { 
   BriefcaseIcon,
   BuildingOfficeIcon,
   MapPinIcon,
   CurrencyDollarIcon,
   ClockIcon,
-  StarIcon,
   BookmarkIcon,
   ShareIcon,
-  ChevronDownIcon,
 } from '@heroicons/react/24/outline'
-import PageHeader from '../components/PageHeader';
 
 interface Job {
   id: number
@@ -85,7 +82,6 @@ export default function JobBoard() {
   const [selectedType, setSelectedType] = useState('All')
   const [selectedLocation, setSelectedLocation] = useState('All')
   const [showRemoteOnly, setShowRemoteOnly] = useState(false)
-  const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -115,166 +111,156 @@ export default function JobBoard() {
     return matchesSearch && matchesType && matchesLocation && matchesRemote
   })
 
-  const navLinks = [
-    { name: 'Dashboard', to: '/' },
-    { name: 'Find Mentors', to: '/mentorship' },
-    { name: 'Skill Certifications', to: '/skill-badges' },
-    { name: 'Job Board', to: '/job-board' },
-  ];
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      <PageHeader />
-      {/* Page Content */}
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Job Board</h1>
-          <p className="mt-2 text-gray-600">Find your next career opportunity.</p>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Job Board</h1>
+        <p className="mt-2 text-gray-600">Discover exciting opportunities and find your next career move.</p>
+      </div>
 
-        {/* Search and Filters */}
-        <div className="space-y-4">
-          <div className="flex gap-4">
-            <div className="flex-1">
+      {/* Search and Filters */}
+      <div className="space-y-4">
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <input
+              type="text"
+              placeholder="Search jobs..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+            />
+          </div>
+          <div className="w-48">
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+            >
+              {jobTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="w-48">
+            <select
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+            >
+              {locations.map((location) => (
+                <option key={location} value={location}>
+                  {location}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center">
+            <label className="flex items-center space-x-2">
               <input
-                type="text"
-                placeholder="Search jobs..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                type="checkbox"
+                checked={showRemoteOnly}
+                onChange={(e) => setShowRemoteOnly(e.target.checked)}
+                className="rounded border-gray-300 text-primary focus:ring-primary"
               />
-            </div>
-            <div className="w-48">
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-              >
-                {jobTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="w-48">
-              <select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-              >
-                {locations.map((location) => (
-                  <option key={location} value={location}>
-                    {location}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center">
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={showRemoteOnly}
-                  onChange={(e) => setShowRemoteOnly(e.target.checked)}
-                  className="rounded border-gray-300 text-primary focus:ring-primary"
-                />
-                <span className="text-sm text-gray-700">Remote only</span>
-              </label>
-            </div>
+              <span className="text-sm text-gray-700">Remote only</span>
+            </label>
           </div>
         </div>
+      </div>
 
-        {/* Job Listings */}
-        <div className="space-y-4">
-          {filteredJobs.map((job) => (
-            <div
-              key={job.id}
-              className={`rounded-lg border ${
-                job.isFeatured ? 'border-primary' : 'border-gray-200'
-              } bg-white p-6 shadow-sm`}
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start space-x-4">
-                  {job.logo ? (
-                    <img
-                      src={job.logo}
-                      alt={job.company}
-                      className="h-12 w-12 rounded-lg"
-                    />
-                  ) : (
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
-                      <BuildingOfficeIcon className="h-6 w-6 text-gray-400" />
-                    </div>
-                  )}
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <h3 className="text-lg font-semibold text-gray-900">{job.title}</h3>
-                      {job.isFeatured && (
-                        <span className="inline-flex items-center rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm text-gray-600">{job.company}</p>
+      {/* Job Listings */}
+      <div className="space-y-4">
+        {filteredJobs.map((job) => (
+          <div
+            key={job.id}
+            className={`rounded-lg border ${
+              job.isFeatured ? 'border-primary' : 'border-gray-200'
+            } bg-white p-6 shadow-sm`}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex items-start space-x-4">
+                {job.logo ? (
+                  <img
+                    src={job.logo}
+                    alt={job.company}
+                    className="h-12 w-12 rounded-lg"
+                  />
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
+                    <BuildingOfficeIcon className="h-6 w-6 text-gray-400" />
                   </div>
-                </div>
-                <div className="flex space-x-2">
-                  <button className="rounded-md p-2 text-gray-400 hover:text-gray-500">
-                    <BookmarkIcon className="h-5 w-5" />
-                  </button>
-                  <button className="rounded-md p-2 text-gray-400 hover:text-gray-500">
-                    <ShareIcon className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-4">
-                <div className="flex items-center text-sm text-gray-500">
-                  <MapPinIcon className="mr-1.5 h-5 w-5 text-gray-400" />
-                  {job.location}
-                </div>
-                <div className="flex items-center text-sm text-gray-500">
-                  <BriefcaseIcon className="mr-1.5 h-5 w-5 text-gray-400" />
-                  {job.type}
-                </div>
-                <div className="flex items-center text-sm text-gray-500">
-                  <CurrencyDollarIcon className="mr-1.5 h-5 w-5 text-gray-400" />
-                  {job.salary}
-                </div>
-                <div className="flex items-center text-sm text-gray-500">
-                  <ClockIcon className="mr-1.5 h-5 w-5 text-gray-400" />
-                  {job.postedDate}
+                )}
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="text-lg font-semibold text-gray-900">{job.title}</h3>
+                    {job.isFeatured && (
+                      <span className="inline-flex items-center rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-600">{job.company}</p>
                 </div>
               </div>
-
-              <p className="mt-4 text-sm text-gray-600">{job.description}</p>
-
-              <div className="mt-4">
-                <h4 className="text-sm font-medium text-gray-900">Requirements</h4>
-                <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
-                  {job.requirements.map((requirement, index) => (
-                    <li key={index}>{requirement}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-4">
-                <h4 className="text-sm font-medium text-gray-900">Benefits</h4>
-                <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
-                  {job.benefits.map((benefit, index) => (
-                    <li key={index}>{benefit}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6">
-                <button className="w-full rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600">
-                  Apply Now
+              <div className="flex space-x-2">
+                <button className="rounded-md p-2 text-gray-400 hover:text-gray-500">
+                  <BookmarkIcon className="h-5 w-5" />
+                </button>
+                <button className="rounded-md p-2 text-gray-400 hover:text-gray-500">
+                  <ShareIcon className="h-5 w-5" />
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+
+            <div className="mt-4 flex flex-wrap gap-4">
+              <div className="flex items-center text-sm text-gray-500">
+                <MapPinIcon className="mr-1.5 h-5 w-5 text-gray-400" />
+                {job.location}
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <BriefcaseIcon className="mr-1.5 h-5 w-5 text-gray-400" />
+                {job.type}
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <CurrencyDollarIcon className="mr-1.5 h-5 w-5 text-gray-400" />
+                {job.salary}
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <ClockIcon className="mr-1.5 h-5 w-5 text-gray-400" />
+                {job.postedDate}
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm text-gray-600">{job.description}</p>
+
+            <div className="mt-4">
+              <h4 className="text-sm font-medium text-gray-900">Requirements</h4>
+              <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
+                {job.requirements.map((requirement, index) => (
+                  <li key={index}>{requirement}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-4">
+              <h4 className="text-sm font-medium text-gray-900">Benefits</h4>
+              <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
+                {job.benefits.map((benefit, index) => (
+                  <li key={index}>{benefit}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-6">
+              <button className="w-full rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600">
+                Apply Now
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

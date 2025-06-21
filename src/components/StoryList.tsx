@@ -1,5 +1,3 @@
-import React from 'react';
-
 const stories = [
   { name: 'Your Story', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
   { name: 'Sarah Johnson', img: 'https://randomuser.me/api/portraits/women/44.jpg' },

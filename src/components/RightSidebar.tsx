@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function RightSidebar() {
   return (
     <aside className="space-y-6">

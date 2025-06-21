@@ -9,7 +9,10 @@ import {
   StarIcon,
   ChatBubbleLeftIcon,
   BookmarkIcon,
-  ShareIcon
+  ShareIcon,
+  CheckCircleIcon,
+  ShieldCheckIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 
 interface User {
@@ -42,6 +45,11 @@ interface User {
     technologies: string[];
     link: string;
   }[];
+  openToHelp?: boolean;
+  verified?: boolean;
+  messageLimit?: number;
+  messagesThisWeek?: number;
+  tips?: string[];
 }
 
 export default function Network() {
@@ -51,8 +59,13 @@ export default function Network() {
     role: '',
     skills: [] as string[],
     location: '',
-    education: ''
+    education: '',
+    openToHelp: false
   });
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(false);
 
   // Sample data - replace with actual data from your backend
   const users: User[] = [
@@ -93,8 +106,51 @@ export default function Network() {
           technologies: ['Python', 'TensorFlow', 'React'],
           link: 'https://github.com/example/project'
         }
+      ],
+      openToHelp: true,
+      verified: true,
+      messageLimit: 3,
+      messagesThisWeek: 1,
+      tips: [
+        'Use keywords from the job description in your resume.',
+        'Highlight public sector experience.',
+        'Showcase teamwork and analytical skills.'
       ]
     },
+    {
+      id: 2,
+      name: 'Priya Singh',
+      role: 'Software Engineer',
+      image: 'https://randomuser.me/api/portraits/women/44.jpg',
+      education: [
+        {
+          institution: 'University of Waterloo',
+          degree: 'B.S. Software Engineering',
+          year: '2021'
+        }
+      ],
+      experience: [
+        {
+          company: 'Shopify',
+          position: 'Frontend Developer',
+          duration: '2021-Present'
+        }
+      ],
+      skills: ['React', 'TypeScript', 'UI/UX'],
+      location: 'Remote',
+      mutualConnections: 8,
+      interests: ['E-commerce', 'Design', 'Mentoring'],
+      achievements: [],
+      projects: [],
+      openToHelp: false,
+      verified: true,
+      messageLimit: 2,
+      messagesThisWeek: 2,
+      tips: [
+        'Show your open-source contributions.',
+        'Emphasize product thinking and impact.'
+      ]
+    }
     // Add more users as needed
   ];
 
@@ -103,6 +159,33 @@ export default function Network() {
     skills: ['React', 'Python', 'Machine Learning', 'Data Science', 'UI/UX'],
     locations: ['San Francisco', 'New York', 'London', 'Berlin'],
     education: ['Computer Science', 'Engineering', 'Business', 'Design']
+  };
+
+  // Filtering logic
+  const filteredUsers = users.filter(user => {
+    if (selectedFilters.openToHelp && !user.openToHelp) return false;
+    if (selectedFilters.role && user.role !== selectedFilters.role) return false;
+    if (selectedFilters.location && user.location !== selectedFilters.location) return false;
+    if (searchQuery && !user.name.toLowerCase().includes(searchQuery.toLowerCase()) && !user.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()))) return false;
+    return true;
+  });
+
+  // Modal handlers
+  const openModal = (user: User) => {
+    setSelectedUser(user);
+    setShowModal(true);
+    setMessage('');
+    setSuccess(false);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedUser(null);
+    setMessage('');
+    setSuccess(false);
+  };
+  const handleSend = () => {
+    setSuccess(true);
+    setTimeout(() => closeModal(), 2000);
   };
 
   return (
@@ -120,7 +203,7 @@ export default function Network() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <select
               className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={selectedFilters.role}
@@ -141,6 +224,15 @@ export default function Network() {
                 <option key={location} value={location}>{location}</option>
               ))}
             </select>
+            <label className="flex items-center gap-1 text-sm text-blue-700 font-medium cursor-pointer">
+              <input
+                type="checkbox"
+                checked={selectedFilters.openToHelp}
+                onChange={e => setSelectedFilters({...selectedFilters, openToHelp: e.target.checked})}
+                className="accent-blue-600 h-4 w-4 rounded"
+              />
+              <CheckCircleIcon className="h-4 w-4 text-green-500" /> Open to Help
+            </label>
           </div>
         </div>
       </div>
@@ -166,7 +258,7 @@ export default function Network() {
 
       {/* User Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <div key={user.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
             {/* Cover Image */}
             <div className="h-32 bg-gradient-to-r from-blue-500 to-blue-700"></div>
@@ -183,11 +275,29 @@ export default function Network() {
                   <div>
                     <h3 className="text-lg font-semibold">{user.name}</h3>
                     <p className="text-gray-600">{user.role}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      {user.verified && <ShieldCheckIcon className="h-4 w-4 text-blue-500" title="Verified" />}
+                      {user.openToHelp && <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-semibold">Open to Help</span>}
+                    </div>
                   </div>
                 </div>
-                <button className="p-2 text-blue-700 hover:bg-blue-50 rounded-full">
-                  <UserPlusIcon className="h-5 w-5" />
-                </button>
+                <div className="flex flex-col items-end gap-2">
+                  <button className="p-2 text-blue-700 hover:bg-blue-50 rounded-full">
+                    <UserPlusIcon className="h-5 w-5" />
+                  </button>
+                  {user.openToHelp && user.messageLimit && user.messagesThisWeek !== undefined && (
+                    <button
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-xs font-semibold disabled:opacity-50"
+                      disabled={user.messagesThisWeek >= user.messageLimit}
+                      onClick={() => openModal(user)}
+                    >
+                      Ask for Guidance
+                    </button>
+                  )}
+                  {user.openToHelp && user.messageLimit && user.messagesThisWeek !== undefined && (
+                    <span className="text-xs text-gray-500 mt-1">{user.messageLimit - user.messagesThisWeek} requests left</span>
+                  )}
+                </div>
               </div>
 
               {/* Location and Education */}
@@ -198,63 +308,57 @@ export default function Network() {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <AcademicCapIcon className="h-5 w-5 mr-2" />
-                  <span>{user.education[0].institution}</span>
+                  <span>{user.education[0]?.degree} @ {user.education[0]?.institution}</span>
                 </div>
               </div>
 
               {/* Skills */}
-              <div className="mt-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Skills</h4>
-                <div className="flex flex-wrap gap-2">
-                  {user.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Projects */}
-              <div className="mt-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Featured Project</h4>
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <h5 className="font-medium">{user.projects[0].title}</h5>
-                  <p className="text-sm text-gray-600 mt-1">{user.projects[0].description}</p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {user.projects[0].technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 bg-white text-gray-600 rounded-full text-xs"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-700">
-                  <ChatBubbleLeftIcon className="h-5 w-5" />
-                  <span className="text-sm">Message</span>
-                </button>
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-700">
-                  <BookmarkIcon className="h-5 w-5" />
-                  <span className="text-sm">Save</span>
-                </button>
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-700">
-                  <ShareIcon className="h-5 w-5" />
-                  <span className="text-sm">Share</span>
-                </button>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {user.skills.map((skill, idx) => (
+                  <span key={idx} className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-xs font-medium">{skill}</span>
+                ))}
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Modal for Guidance Request */}
+      {showModal && selectedUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative">
+            <button className="absolute top-3 right-3 text-gray-400 hover:text-gray-600" onClick={closeModal}><XMarkIcon className="h-6 w-6" /></button>
+            <div className="flex items-center gap-3 mb-4">
+              <img src={selectedUser.image} alt={selectedUser.name} className="h-10 w-10 rounded-full" />
+              <div>
+                <div className="font-semibold text-gray-900">{selectedUser.name}</div>
+                <div className="text-xs text-gray-500">{selectedUser.role} @ {selectedUser.experience[0]?.company}</div>
+              </div>
+            </div>
+            <h3 className="text-lg font-bold text-blue-700 mb-2">Request Guidance</h3>
+            {success ? (
+              <div className="text-green-600 font-semibold text-center py-6">Your request was sent! {selectedUser.name} will get back to you soon.</div>
+            ) : (
+              <>
+                <textarea
+                  className="w-full border border-blue-200 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-blue-500"
+                  rows={4}
+                  placeholder="Write a short message about what you need help with (e.g. resume review, interview tips, company culture)"
+                  value={message}
+                  onChange={e => setMessage(e.target.value)}
+                />
+                <button
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
+                  onClick={handleSend}
+                  disabled={!message.trim()}
+                >
+                  Send Request
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
